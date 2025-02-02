@@ -74,11 +74,11 @@
                 const response = await fetch(`https://hahabypasser-secret-or-no.vercel.app/bypass?url=${encodeURIComponent(url)}`);
                 const data = await response.json();
 
-                // Verificar se a resposta contém a URL
-                if (data && data.url) {
-                    messageElement.textContent = `Link bypassado: ${data.url}`;
+                // Exibir o resultado da API
+                if (data && data.result) {
+                    messageElement.textContent = `Result: ${data.result}`;
                 } else {
-                    messageElement.textContent = "Se o link estiver certo, a API funcionou. Caso contrário, houve um erro ao processar a resposta.";
+                    messageElement.textContent = "Erro ao processar a resposta.";
                 }
             } catch (error) {
                 messageElement.textContent = "Erro ao conectar com a API.";
