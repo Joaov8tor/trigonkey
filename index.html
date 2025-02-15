@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>API Bypass made by CLH HUB</title>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -46,6 +45,15 @@
             margin-top: 20px;
             font-size: 18px;
         }
+        #captchaBox {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            display: inline-block;
+            cursor: pointer;
+            user-select: none;
+        }
     </style>
 </head>
 <body>
@@ -54,25 +62,36 @@
         <form id="urlForm">
             <input type="text" id="urlInput" placeholder="Digite o link aqui" required>
             <br>
-            <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
+            <div id="captchaBox">Clique para verificar</div>
             <br>
-            <button type="submit">Enviar</button>
+            <button type="submit" disabled id="submitButton">Enviar</button>
         </form>
         <div id="message"></div>
     </div>
 
     <script>
+        const captchaBox = document.getElementById("captchaBox");
+        const submitButton = document.getElementById("submitButton");
+        let captchaVerified = false;
+
+        captchaBox.addEventListener("click", function() {
+            if (!captchaVerified) {
+                captchaBox.textContent = "Verificado ✅";
+                captchaBox.style.backgroundColor = "#d4edda";
+                captchaVerified = true;
+                submitButton.disabled = false;
+            }
+        });
+
         document.getElementById("urlForm").addEventListener("submit", async function(event) {
             event.preventDefault();
-            const url = document.getElementById("urlInput").value;
-            const messageElement = document.getElementById("message");
-            const recaptchaResponse = grecaptcha.getResponse();
-
-            if (!recaptchaResponse) {
-                messageElement.textContent = "Por favor, verifique o CAPTCHA.";
+            if (!captchaVerified) {
+                document.getElementById("message").textContent = "Por favor, verifique o CAPTCHA.";
                 return;
             }
-
+            
+            const url = document.getElementById("urlInput").value;
+            const messageElement = document.getElementById("message");
             messageElement.textContent = "Aguardando resposta da API...";
 
             try {
@@ -91,3 +110,4 @@
     </script>
 </body>
 </html>
+
