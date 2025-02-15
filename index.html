@@ -1,10 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>API Bypass made by CLH HUB</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,7 +24,7 @@
             width: 400px;
             text-align: center;
         }
-        input[type="text"], input[type="number"] {
+        input[type="text"] {
             width: 80%;
             padding: 10px;
             margin: 10px 0;
@@ -54,8 +54,7 @@
         <form id="urlForm">
             <input type="text" id="urlInput" placeholder="Digite o link aqui" required>
             <br>
-            <span id="captchaQuestion"></span>
-            <input type="number" id="captchaInput" placeholder="Responda" required>
+            <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
             <br>
             <button type="submit">Enviar</button>
         </form>
@@ -63,24 +62,14 @@
     </div>
 
     <script>
-        function generateCaptcha() {
-            const num1 = Math.floor(Math.random() * 10) + 1;
-            const num2 = Math.floor(Math.random() * 10) + 1;
-            document.getElementById("captchaQuestion").textContent = `Quanto é ${num1} + ${num2}?`;
-            return num1 + num2;
-        }
-
-        let correctAnswer = generateCaptcha();
-
         document.getElementById("urlForm").addEventListener("submit", async function(event) {
             event.preventDefault();
             const url = document.getElementById("urlInput").value;
-            const captchaAnswer = parseInt(document.getElementById("captchaInput").value);
             const messageElement = document.getElementById("message");
+            const recaptchaResponse = grecaptcha.getResponse();
 
-            if (captchaAnswer !== correctAnswer) {
-                messageElement.textContent = "Resposta do CAPTCHA incorreta. Tente novamente.";
-                correctAnswer = generateCaptcha();
+            if (!recaptchaResponse) {
+                messageElement.textContent = "Por favor, verifique o CAPTCHA.";
                 return;
             }
 
