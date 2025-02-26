@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -16,12 +17,11 @@
             align-items: center;
             height: 100vh;
             background: radial-gradient(circle, #0f0f0f 10%, #1a1a1a 80%);
-            overflow: hidden;
             color: #fff;
         }
 
         .container {
-            background: rgba(25, 25, 25, 0.9);
+            background: rgba(25, 25, 25, 0.95);
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
@@ -66,6 +66,8 @@
             font-size: 16px;
             font-weight: bold;
             transition: 0.3s;
+            position: relative;
+            z-index: 1;
         }
 
         button:hover {
@@ -96,6 +98,7 @@
             background: rgba(0, 255, 255, 0.5);
         }
 
+        /* Removendo a sobreposição do neon-border */
         .neon-border {
             position: absolute;
             width: 100%;
@@ -103,6 +106,7 @@
             border-radius: 12px;
             box-shadow: 0 0 15px #0ff;
             animation: glow 2s infinite alternate;
+            pointer-events: none; /* Impede que a borda bloqueie os botões */
         }
 
         @keyframes glow {
