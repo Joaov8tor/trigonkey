@@ -135,7 +135,7 @@
   <script>
     let captchaAnswer;
 
-    // Função para gerar um número aleatório para o CAPTCHA
+    // Função para gerar um número aleatório para o CAPTCHA e atualizar a pergunta
     function generateCaptcha() {
       const num1 = Math.floor(Math.random() * 10);
       const num2 = Math.floor(Math.random() * 10);
@@ -143,8 +143,8 @@
       document.getElementById('captchaQuestion').textContent = `Qual é a soma de ${num1} + ${num2}?`;
     }
 
-    // Chama a função para gerar o CAPTCHA ao carregar a página
-    generateCaptcha();
+    // Gera o CAPTCHA toda vez que a página ou a URL for reiniciada
+    window.onload = generateCaptcha;
 
     async function bypassUrl() {
       const url = document.getElementById('url').value;
@@ -186,9 +186,11 @@
       } finally {
         loadingElement.style.display = "none";
       }
+
+      // Gera um novo CAPTCHA após a tentativa
+      generateCaptcha();
     }
   </script>
 
 </body>
 </html>
-
